@@ -13,10 +13,11 @@ public:
             maxVal= p.second;
         }
      }
-     int count =0;
+     int count = 0;
      for(auto p:mp){
         if(p.second == maxVal){
             count++;
+             
         }
      }
      return maxVal*count;
