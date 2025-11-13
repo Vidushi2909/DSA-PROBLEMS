@@ -1,4 +1,7 @@
-#include<bits/stdc++.h>
+#include<iostream>
+#include<vector>
+#include<set>
+#include<algorithm>
 using namespace std;
 
 vector<int> unionArray (vector<int>nums1 ,vector<int>nums2){
@@ -9,31 +12,29 @@ vector<int> unionArray (vector<int>nums1 ,vector<int>nums2){
     for(int i=0;i<nums2.size();i++){
         s.insert(nums2[i]);
     }
-    vector<int>ans(s.size());
-    for(int val:s){
-        ans.push_back(val);
-    }
+    vector<int>ans(s.begin(),s.end());
     return ans;
 }
 
 vector<int> intersectionArray (vector<int>nums1 ,vector<int>nums2){
-    if(nums2.size()<nums1.size()) swap(nums1,nums2);
-    int m=nums1.size(),n=nums2.size();
-    vector<int>ans(m);
     sort(nums1.begin(),nums1.end());
-    sort(nums2.begin(),nums2.begin());
-    int i,j=0;
-    while(i<nums1.size() || j<nums2.size()){
-        if(nums1[i]==nums2[j]){
-            ans.push_back(nums1[i]);
-        }
-        else if(nums1[i]<nums2[j]){
+    sort(nums1.begin(),nums1.end());
+    set<int>s;
+    int i=0,j=0;
+    while(i<nums1.size() && j<nums2.size()){
+        if(nums1[i]<nums2[j]){
             i++;
         }
+        else if(nums1[i]>nums2[j]){
+            j++;
+        }
         else{
+            s.insert(nums1[i]);
+            i++;
             j++;
         }
     }
+    vector<int>ans(s.begin(),s.end());
     return ans;
 }
 
