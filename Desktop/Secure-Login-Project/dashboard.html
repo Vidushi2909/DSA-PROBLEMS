@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <h2>Welcome, <span id="username">User</span>!</h2>
+        <p style="text-align: center;">You are successfully logged in.</p>
+        <p style="text-align: center;">Email: <span id="userEmail"></span></p>
+        <button onclick="logout()">Logout</button>
+    </div>
+
+    <script>
+        // Check if user is logged in
+        async function checkSession() {
+            try {
+                const response = await fetch('/api/check-session');
+                const data = await response.json();
+                
+                if (!data.loggedIn) {
+                    // Not logged in, redirect to login
+                    window.location.href = 'login.html';
+                } else {
+                    // Display user info
+                    document.getElementById('username').textContent = data.user.username;
+                    document.getElementById('userEmail').textContent = data.user.email;
+                }
+            } catch (error) {
+                console.error('Error checking session:', error);
+                window.location.href = 'login.html';
+            }
+        }
+        
+        async function logout() {
+            try {
+                const response = await fetch('/api/logout', {
+                    method: 'POST'
+                });
+                const data = await response.json();
+                
+                if (data.success) {
+                    alert('Logged out successfully!');
+                    window.location.href = 'login.html';
+                }
+            } catch (error) {
+                console.error('Logout error:', error);
+            }
+        }
+        
+        // Check session when page loads
+        checkSession();
+    </script>
+</body>
+</html>
