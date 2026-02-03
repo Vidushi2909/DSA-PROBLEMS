@@ -24,33 +24,18 @@ struct TreeNode {
    Build tree from level-order (LeetCode style)
    -1 represents null
 ------------------------------------------------- */
-TreeNode* buildTree(vector<int> nodes) {
-    if (nodes.size() == 0 || nodes[0] == -1) return nullptr;
 
-    TreeNode* root = new TreeNode(nodes[0]);
-    queue<TreeNode*> q;
-    q.push(root);
+static int i=-1;
+TreeNode* buildTreePO(vector<int> preSequence){
+  i++;
+  if(preSequence[i] == -1) return NULL;
 
-    int i = 1;
-    while (!q.empty() && i < nodes.size()) {
-        TreeNode* curr = q.front();
-        q.pop();
+  TreeNode* root = new TreeNode(preSequence[i]);
+  root->left = buildTreePO(preSequence);
+  root->right = buildTreePO(preSequence);
 
-        if (i < nodes.size() && nodes[i] != -1) {
-            curr->left = new TreeNode(nodes[i]);
-            q.push(curr->left);
-        }
-        i++;
-
-        if (i < nodes.size() && nodes[i] != -1) {
-            curr->right = new TreeNode(nodes[i]);
-            q.push(curr->right);
-        }
-        i++;
-    }
-    return root;
+  return root;
 }
-
 /* ---------------- Traversals (for testing) ---------------- */
 
 void inorder(TreeNode* root) {
